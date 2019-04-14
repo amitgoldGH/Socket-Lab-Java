@@ -6,7 +6,7 @@
 
 import java.io.*; 
 import java.net.*; 
-class TCPClient { 
+class TCP_Client { 
     
     public static void main(String argv[]) throws Exception 
     { 
@@ -17,26 +17,27 @@ class TCPClient {
 	    new BufferedReader(new InputStreamReader(System.in)); 
 	
         Socket clientSocket = new Socket("localhost", 45676); 
-	
-        DataOutputStream outToServer = 
-	    new DataOutputStream(clientSocket.getOutputStream()); 
-	
-        
-	BufferedReader inFromServer = 
-	    new BufferedReader(new
-		InputStreamReader(clientSocket.getInputStream())); 
-		while (true && !sentence.contains("STOP")) {
-			sentence = inFromUser.readLine(); 
-			
-	        outToServer.writeBytes(sentence + '\n'); 
-		
-	        modifiedSentence = inFromServer.readLine(); 
-		
-	        System.out.println("FROM SERVER: " + modifiedSentence); 
-		
-	    
-		}
-            clientSocket.close(); 
+        try {
+        	DataOutputStream outToServer = 
+        			new DataOutputStream(clientSocket.getOutputStream()); 
+        	
+        	
+        	BufferedReader inFromServer = 
+        			new BufferedReader(new
+        					InputStreamReader(clientSocket.getInputStream())); 
+        	while (true && !sentence.contains("STOP")) {
+        		sentence = inFromUser.readLine(); 
+        		
+        		outToServer.writeBytes(sentence + '\n'); 
+        		
+        		modifiedSentence = inFromServer.readLine(); 
+        		
+        		System.out.println("FROM SERVER: " + modifiedSentence); 
+        		
+        	}	
+        } finally {
+        	clientSocket.close();        	
+        }
 	
     } 
 } 
